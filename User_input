@@ -1,0 +1,32 @@
+# Get table dimensions from user
+rows = int(input("Enter number of rows: "))
+cols = int(input("Enter number of columns: "))
+
+# Initialize table and collect data
+table = []
+for i in range(rows):
+    while True:
+        # Get row input and split into cells
+        row_input = input(f"Enter row {i+1} (values separated by comma or space): ")
+        cells = [cell.strip() for cell in row_input.replace(',', ' ').split()]
+        
+        # Validate number of columns
+        if len(cells) != cols:
+            print(f"Error: Expected {cols} columns, got {len(cells)}. Please try again.")
+        else:
+            table.append(cells)
+            break
+
+# Calculate maximum width for each column
+col_widths = [
+    max(len(str(row[col])) for row in table)
+    for col in range(cols)
+]
+
+# Create format string for aligned columns
+format_str = " | ".join([f"{{:<{width}}}" for width in col_widths])
+
+# Print the formatted table
+print("\nResulting Table:")
+for row in table:
+    print(format_str.format(*row))
